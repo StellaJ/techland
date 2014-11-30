@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>For Techland</title>
+    	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static 'css/home.css' %}">
+        <link href='//fonts.googleapis.com/css?family=EB+Garamond&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        </head>
+    <body>
+        <div class="header">
+            <h1><a href="{% url 'techsite.views.home' %}">Hello Techland</a></h1>
+        </div>
+
+        <div class="content">
+                <div class="col-md-8">
+                    <form action="/techsite/home/" method="post" class="form">
+	                {% csrf_token %}
+	                {{ form.as_p }}
+	                <input type="submit" class="btn btn-default btn-small" name="submit" value="Add person" />
+                    {% if list_people %}
+                        <ul>
+                            {% for person in list_people %}
+                                <li>{{ person.name }} ({{ person.birth_date|timesince }}), {{ person.parents }}</a></li>
+                            {% endfor %}
+                        </ul>
+                            <p>Najstarszą osobą jest {{list_people.earliest}} ({{ list_people.earliest.birth_date|timesince }}), zaś najmłodszą {{list_people.latest }} ({{ list_people.latest.birth_date|timesince }}).</p>   
+                    {% else %}
+                        <p>No person is available.</p>
+                    {% endif %}
+                    </form>
+               </div>
+        </div>
+
+    </body>
+</html>
